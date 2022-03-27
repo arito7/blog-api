@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.8",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "name": "blog-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:arito7/blog-api.git",
+  "author": "arito7 <64824933+arito7@users.noreply.github.com>",
+  "license": "MIT"
+}
