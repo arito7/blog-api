@@ -23,3 +23,5 @@ const jwtStrategy = new JwtStrategy(jwtStrategyOptions, (payload, done) => {
 
 passport.use(jwtStrategy);
 passport.initialize();
+
+export const jwtAuth = passport.authenticate('jwt', { session: false });
