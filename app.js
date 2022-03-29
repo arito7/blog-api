@@ -1,6 +1,9 @@
 import express from 'express';
 import db from './config/mongodb.js';
 import authRoute from './routes/auth.js';
+import postsRoute from './routes/posts.js';
+import cors from 'cors';
+import morgan from 'morgan';
 import './config/passport.js';
 
 db.on('error', () => {
@@ -8,11 +11,18 @@ db.on('error', () => {
 });
 
 const app = express();
-
+app.use(
+  cors({
+    origin: ['http://127.0.0.1:3000', 'http://localhost:3000'],
+  })
+);
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/', authRoute);
+app.use('/posts', postsRoute);
+
 app.use((req, res, next) => {
   const error = new Error('Not Found');
   error.status = 404;
