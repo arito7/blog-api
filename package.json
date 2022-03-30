@@ -7,6 +7,9 @@
     "start": "node app",
     "devstart": "nodemon app"
   },
+  "engines": {
+    "node": "16.13.2"
+  },
   "repository": "git@github.com:arito7/blog-api.git",
   "author": "arito7 <64824933+arito7@users.noreply.github.com>",
   "license": "MIT",
