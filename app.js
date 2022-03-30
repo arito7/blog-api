@@ -7,6 +7,8 @@ import morgan from 'morgan';
 import './config/passport.js';
 import compression from 'compression';
 import helmet from 'helmet';
+import { config } from 'dotenv';
+config();
 
 db.on('error', () => {
   console.log('mongodb connection error');
@@ -42,6 +44,6 @@ app.use((err, req, res, next) => {
   );
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT, () => {
   console.log('listening on port 5000');
 });
