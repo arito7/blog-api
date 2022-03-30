@@ -4,6 +4,7 @@ import postController from '../controllers/postController.js';
 import {
   checkValidationResult,
   postUpdateValidation,
+  postCreateValidation,
 } from '../config/validationSchemas.js';
 
 const router = Router();
@@ -16,7 +17,13 @@ router.get('/', postController.getPosts);
 router.get('/:id', postController.getOnePost);
 
 // create a post
-router.post('/', jwtAuth, postController.createPost);
+router.post(
+  '/',
+  jwtAuth,
+  postCreateValidation,
+  checkValidationResult,
+  postController.createPost
+);
 
 // DELETE a post by id
 router.delete('/:id', jwtAuth, postController.deletePost);
