@@ -36,7 +36,7 @@ const getOnePost = (req, res) => {
       res.send(err);
     }
     if (!post) {
-      res.send('This post does not exist');
+      res.json({ message: 'This post does not exist' });
     }
     res.send(post);
   });
@@ -47,13 +47,15 @@ const createPost = (req, res) => {
     creator: req.user.id,
     title: req.body.title,
     body: req.body.body,
+    published: req.body.published || false,
   });
 
-  post.save((err, post) => {
+  post.save((err, p) => {
     if (err) {
+      res.status(500);
       res.send(err);
     }
-    res.json(post);
+    res.json({ message: 'Post Successfully saved' });
   });
 };
 
