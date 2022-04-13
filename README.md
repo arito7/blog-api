@@ -1,5 +1,7 @@
 # Blog Api
 
+A learning project with a focus on JWT authentication, using passport with the jwt strategy.
+
 ## Blog Post
 
 ### GET
