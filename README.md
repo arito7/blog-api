@@ -13,12 +13,13 @@ https://arito-blog-api.herokuapp.com/
 
 ---
 
-|     | Method |                                   | Description                  | 
-| --- | ------ | --------------------------------- | ---------------------------- |
-| [ ] | GET    | /posts                            | Get all posts                |
-| [ ] | GET    | /posts/:id                        | Get single post by id        |
-| [ ] | POST   | /posts                            | Create a new post            |
-| [ ] | POST   | /posts/:id/comment                | Add a comment to a post      |
-| [ ] | PUT    | /posts/:id                        | Update a post by id          |
-| [ ] | DELETE | /posts/:id                        | Delete a post by id          | 
-| [ ] | DELETE | /posts/:postId/comment/:commentId | Delete a comment from a post |
+|     | Method |                                   | Description                  | Format |
+| --- | ------ | --------------------------------- | ---------------------------- | ------ |
+| [x] | GET    | /posts                            | Get all posts                | |
+| [x] | GET    | /posts/:id                        | Get single post by id        | |
+| [x] | GET    | /posts/:id/comments               | Get all comments for a post  | | 
+| [ ] | POST   | /posts                            | Create a new post            | { title, body } |
+| [ ] | POST   | /posts/:id/comments                | Add a comment to a post      | { name, comment } |
+| [ ] | PUT    | /posts/:id                        | Update a post by id          | |
+| [ ] | DELETE | /posts/:id                        | Delete a post by id          | |
+| [ ] | DELETE | /posts/:postId/comments/:commentId | Delete a comment from a post | |
