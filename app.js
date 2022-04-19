@@ -9,6 +9,8 @@ const compression = require('compression');
 const helmet = require('helmet');
 require('dotenv').config();
 
+const port = 5000;
+
 db.on('error', () => {
   console.log('mongodb connection error');
 });
@@ -16,7 +18,6 @@ db.on('error', () => {
 const app = express();
 app.use(
   cors({
-    allowedHeaders: '*',
     origin: ['http://127.0.0.1:3000', 'http://localhost:3000'],
   })
 );
@@ -43,6 +44,6 @@ app.use((err, req, res, next) => {
   );
 });
 
-app.listen(process.env.PORT, () => {
-  console.log('listening on port 5000');
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
