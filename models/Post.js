@@ -6,7 +6,6 @@ const PostSchema = new mongoose.Schema(
     title: { type: String, required: true, length: { min: 3, max: 100 } },
     body: { type: String, required: true, length: { min: 3, max: 2000 } },
     published: { type: Boolean, default: false },
-    comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }],
   },
   { timestamps: true }
 );

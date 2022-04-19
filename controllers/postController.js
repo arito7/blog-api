@@ -11,7 +11,15 @@ exports.getPosts = (req, res) => {
       res.json({ posts });
     });
 };
-    });
+
+exports.getComments = (req, res, next) => {
+  Comment.find({ post: req.params.id }).exec((err, comments) => {
+    if (err) {
+      res.status(500);
+      res.json({ message: 'Database Error' });
+    }
+    res.json({ postId: req.params.id, comments });
+  });
 };
 
 exports.updatePost = (req, res, next) => {
@@ -81,13 +89,4 @@ exports.postComment = (req, res) => {
     }
     res.send(comment);
   });
-};
-
-export default {
-  postComment,
-  getOnePost,
-  getPosts,
-  updatePost,
-  createPost,
-  deletePost,
 };

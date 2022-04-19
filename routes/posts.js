@@ -16,6 +16,8 @@ router.get('/', postController.getPosts);
 // get one post by id
 router.get('/:id', postController.getOnePost);
 
+router.get('/:id/comments', postController.getComments);
+
 // create a post
 router.post(
   '/',
