@@ -7,7 +7,7 @@ exports.getPosts = (req, res) => {
     .populate('comments')
     .exec((err, posts) => {
       if (err) {
-        res.send(err.message);
+        return res.send(err.message);
       }
       res.send(posts);
     });
@@ -23,7 +23,7 @@ exports.updatePost = (req, res, next) => {
     post.published = req.body.published || post.published;
     post.save((err, post) => {
       if (err) {
-        res.json({ message: err.message });
+        return res.json({ message: err.message });
       }
       res.json({ body: req.body, post });
     });
@@ -33,10 +33,10 @@ exports.updatePost = (req, res, next) => {
 exports.getOnePost = (req, res) => {
   Post.findById(req.params.id, (err, post) => {
     if (err) {
-      res.send(err);
+      return res.send(err);
     }
     if (!post) {
-      res.json({ message: 'This post does not exist' });
+      return res.json({ message: 'This post does not exist' });
     }
     res.send(post);
   });
@@ -53,7 +53,7 @@ exports.createPost = (req, res) => {
   post.save((err, p) => {
     if (err) {
       res.status(500);
-      res.send(err);
+      return res.send(err);
     }
     res.json({ message: 'Post Successfully saved' });
   });
@@ -62,7 +62,7 @@ exports.createPost = (req, res) => {
 exports.deletePost = (req, res) => {
   Post.findByIdAndDelete(req.params.id, (err, post) => {
     if (err) {
-      res.send(err);
+      return res.send(err);
     }
     res.send(post);
   });
@@ -76,7 +76,7 @@ exports.postComment = (req, res) => {
   });
   comment.save((err, comment) => {
     if (err) {
-      res.send(err);
+      return res.send(err);
     }
     res.send(comment);
   });
