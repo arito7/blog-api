@@ -4,12 +4,13 @@ const Comment = require('../models/Comment');
 exports.getPosts = (req, res) => {
   Post.find({ published: true })
     .limit(20)
-    .populate('comments')
     .exec((err, posts) => {
       if (err) {
         return res.send(err.message);
       }
-      res.send(posts);
+      res.json({ posts });
+    });
+};
     });
 };
 
