@@ -1,14 +1,13 @@
-import express from 'express';
-import db from './config/mongodb.js';
-import authRoute from './routes/auth.js';
-import postsRoute from './routes/posts.js';
-import cors from 'cors';
-import morgan from 'morgan';
-import './config/passport.js';
-import compression from 'compression';
-import helmet from 'helmet';
-import { config } from 'dotenv';
-config();
+const express = require('express');
+const db = require('./config/mongodb');
+const authRoute = require('./routes/auth');
+const postsRoute = require('./routes/posts');
+const cors = require('cors');
+const morgan = require('morgan');
+require('./config/passport');
+const compression = require('compression');
+const helmet = require('helmet');
+require('dotenv').config();
 
 db.on('error', () => {
   console.log('mongodb connection error');

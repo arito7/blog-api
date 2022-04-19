@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import { jwtAuth } from '../config/passport.js';
-import postController from '../controllers/postController.js';
-import {
+const Router = require('express').Router;
+const { jwtAuth } = require('../config/passport');
+const postController = require('../controllers/postController');
+const {
   checkValidationResult,
-  postUpdateValidation,
   postCreateValidation,
-} from '../config/validationSchemas.js';
+  postUpdateValidation,
+} = require('../config/validationSchemas');
 
 const router = Router();
 
@@ -39,4 +39,4 @@ router.put(
   postController.updatePost
 );
 
-export default router;
+module.exports = router;

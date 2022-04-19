@@ -1,10 +1,9 @@
-import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { config } from 'dotenv';
-config();
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-const register = (req, res) => {
+exports.register = (req, res) => {
   User.findOne({ username: req.body.username }).exec((err, user) => {
     if (err) {
       res.status = 400;
@@ -37,7 +36,7 @@ const register = (req, res) => {
   });
 };
 
-const login = (req, res) => {
+exports.login = (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
     if (err) {
       res.json({ message: err.message });
@@ -61,5 +60,3 @@ const login = (req, res) => {
     }
   });
 };
-
-export default { register, login };

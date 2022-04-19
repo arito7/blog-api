@@ -1,7 +1,7 @@
-import Post from '../models/Post.js';
-import Comment from '../models/Comment.js';
+const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 
-const getPosts = (req, res) => {
+exports.getPosts = (req, res) => {
   Post.find({ published: true })
     .limit(20)
     .populate('comments')
@@ -13,7 +13,7 @@ const getPosts = (req, res) => {
     });
 };
 
-const updatePost = (req, res, next) => {
+exports.updatePost = (req, res, next) => {
   Post.findById(req.params.id).exec((err, post) => {
     if (err) {
       res.json({ message: err.message });
@@ -30,7 +30,7 @@ const updatePost = (req, res, next) => {
   });
 };
 
-const getOnePost = (req, res) => {
+exports.getOnePost = (req, res) => {
   Post.findById(req.params.id, (err, post) => {
     if (err) {
       res.send(err);
@@ -42,7 +42,7 @@ const getOnePost = (req, res) => {
   });
 };
 
-const createPost = (req, res) => {
+exports.createPost = (req, res) => {
   const post = new Post({
     creator: req.user.id,
     title: req.body.title,
@@ -59,7 +59,7 @@ const createPost = (req, res) => {
   });
 };
 
-const deletePost = (req, res) => {
+exports.deletePost = (req, res) => {
   Post.findByIdAndDelete(req.params.id, (err, post) => {
     if (err) {
       res.send(err);
@@ -68,7 +68,7 @@ const deletePost = (req, res) => {
   });
 };
 
-const postComment = (req, res) => {
+exports.postComment = (req, res) => {
   const comment = new Comment({
     post: req.params.id,
     name: req.body.name,

@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import { jwtAuth } from '../config/passport.js';
-import {
+const Router = require('express').Router;
+const { jwtAuth } = require('../config/passport');
+const {
   checkValidationResult,
   signupValidation,
   loginValidation,
-} from '../config/validationSchemas.js';
-import authController from '../controllers/authController.js';
+} = require('../config/validationSchemas');
+const authController = require('../controllers/authController');
 
 const router = Router();
 
@@ -28,4 +28,4 @@ router.get('/protected', jwtAuth, (req, res) => {
   res.send('successfully authenticated');
 });
 
-export default router;
+module.exports = router;

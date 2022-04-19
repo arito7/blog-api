@@ -1,6 +1,6 @@
-import { body, validationResult } from 'express-validator';
+const { body, validationResult } = require('express-validator');
 
-export const checkValidationResult = (req, res, next) => {
+exports.checkValidationResult = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400);
@@ -9,7 +9,7 @@ export const checkValidationResult = (req, res, next) => {
   return next();
 };
 
-export const signupValidation = [
+exports.signupValidation = [
   body('username', 'Username field is required')
     .exists()
     .trim()
@@ -25,12 +25,12 @@ export const signupValidation = [
     .escape(),
 ];
 
-export const loginValidation = [
+exports.loginValidation = [
   body('username').exists().trim().isAlphanumeric().toLowerCase().escape(),
   body('password').exists().trim().escape(),
 ];
 
-export const postUpdateValidation = [
+exports.postUpdateValidation = [
   body('title').optional().trim().escape(),
   body('body').optional().trim().escape(),
   body('published')
@@ -41,7 +41,7 @@ export const postUpdateValidation = [
     .escape(),
 ];
 
-export const postCreateValidation = [
+exports.postCreateValidation = [
   body('title').exists().trim().escape(),
   body('body').exists().trim().escape(),
   body('published')
