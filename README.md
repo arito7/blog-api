@@ -19,7 +19,7 @@ Authorization: Bearer <Token>
 ```
 ---
 
-|     | Method |                                    | Description                  | Format                            | Requires Auth |
+|     | Method |                                    | Description                  | Body Format                       | Requires Auth |
 | --- | ------ | ---------------------------------- | ---------------------------- | --------------------------------- | :-----------: |
 | [x] | POST   | /login                             | Login                        | { username, password }            | No            |
 | [x] | POST   | /register                          | Register                     | { username, password, rpassword } | No            |
