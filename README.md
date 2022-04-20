@@ -19,8 +19,10 @@ Authorization: Bearer <Token>
 ```
 ---
 
-|     | Method |                                    | Description                  | Format            | Requires Auth |
-| --- | ------ | ---------------------------------- | ---------------------------- | ----------------- | :-----------: |
+|     | Method |                                    | Description                  | Format                            | Requires Auth |
+| --- | ------ | ---------------------------------- | ---------------------------- | --------------------------------- | :-----------: |
+| [x] | POST   | /login                             | Login                        | { username, password }            | No            |
+| [x] | POST   | /register                          | Register                     | { username, password, rpassword } | No            |
 | [x] | GET    | /posts                             | Get all posts                |                   | 
 | [x] | GET    | /posts/:id                         | Get single post by id        |                   |
 | [x] | GET    | /posts/:id/comments                | Get all comments for a post  |                   |
