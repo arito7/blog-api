@@ -17,9 +17,9 @@ exports.getComments = (req, res, next) => {
   Comment.find({ post: req.params.id }).exec((err, comments) => {
     if (err) {
       res.status(500);
-      res.json({ message: 'Database Error' });
+      res.json({ success: false, message: 'Database Error' });
     }
-    res.json({ postId: req.params.id, comments });
+    res.json({ success: true, postId: req.params.id, comments });
   });
 };
 
@@ -44,15 +44,15 @@ exports.getOnePost = (req, res) => {
   Post.findById(req.params.id)
     .populate('creator')
     .exec((err, post) => {
-    if (err) {
+      if (err) {
         return res.json({ success: false, error: err.message });
-    }
-    if (!post) {
+      }
+      if (!post) {
         return res.json({
           success: false,
           message: 'This post does not exist',
         });
-    }
+      }
 
       // assign only the username to creator field so as not expose
       // vital info
@@ -60,7 +60,7 @@ exports.getOnePost = (req, res) => {
       p = p._doc;
       p.creator = p.creator.username;
       res.json({ success: true, post: p });
-  });
+    });
 };
 
 exports.createPost = (req, res) => {
@@ -74,9 +74,9 @@ exports.createPost = (req, res) => {
   post.save((err, p) => {
     if (err) {
       res.status(500);
-      return res.send(err);
+      return res.json({ success: false, message: err.message });
     }
-    res.json({ message: 'Post Successfully saved' });
+    res.json({ success: true, message: 'Post Successfully saved', post: p });
   });
 };
 
