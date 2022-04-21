@@ -26,7 +26,7 @@ Authorization: Bearer <Token>
 | [x] | GET    | /posts                             | Get all posts                |                   | 
 | [x] | GET    | /posts/:id                         | Get single post by id        |                   |
 | [x] | GET    | /posts/:id/comments                | Get all comments for a post  |                   |
-| [x] | POST   | /posts                             | Create a new post            | { title, body [, publish:boolean] }   | Yes           |
+| [x] | POST   | /posts                             | Create a new post            | { title, body [, published:boolean] }   | Yes           |
 | [ ] | POST   | /posts/:id/comments                | Add a comment to a post      | { name, comment } |
 | [ ] | PUT    | /posts/:id                         | Update a post by id          |                   |
 | [ ] | DELETE | /posts/:id                         | Delete a post by id          |                   |
