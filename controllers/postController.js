@@ -4,6 +4,7 @@ const Comment = require('../models/Comment');
 exports.getPosts = (req, res) => {
   Post.find({ published: true })
     .limit(20)
+    .sort({ createdAt: -1 })
     .exec((err, posts) => {
       if (err) {
         return res.send(err.message);
