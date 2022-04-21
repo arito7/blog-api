@@ -41,14 +41,25 @@ exports.updatePost = (req, res, next) => {
 };
 
 exports.getOnePost = (req, res) => {
-  Post.findById(req.params.id, (err, post) => {
+  Post.findById(req.params.id)
+    .populate('creator')
+    .exec((err, post) => {
     if (err) {
-      return res.send(err);
+        return res.json({ success: false, error: err.message });
     }
     if (!post) {
-      return res.json({ message: 'This post does not exist' });
+        return res.json({
+          success: false,
+          message: 'This post does not exist',
+        });
     }
-    res.send(post);
+
+      // assign only the username to creator field so as not expose
+      // vital info
+      let p = { ...post };
+      p = p._doc;
+      p.creator = p.creator.username;
+      res.json({ success: true, post: p });
   });
 };
 
