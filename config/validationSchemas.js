@@ -4,7 +4,11 @@ exports.checkValidationResult = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(400);
-    return res.json(errors.array());
+    return res.json({
+      success: false,
+      message: 'Form validation errors.',
+      errors: errors.array(),
+    });
   }
   return next();
 };
