@@ -36,6 +36,7 @@ router.post('/:id/comments', postController.postComment);
 // UPDATE a post
 router.put(
   '/:id',
+  jwtAuth,
   postUpdateValidation,
   checkValidationResult,
   postController.updatePost
