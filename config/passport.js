@@ -10,7 +10,7 @@ const jwtStrategyOptions = {
 };
 
 const jwtStrategy = new JwtStrategy(jwtStrategyOptions, (payload, done) => {
-  User.findOne({ id: payload.sub }, (err, user) => {
+  User.findOne({ _id: payload.sub }, (err, user) => {
     if (err) {
       return done(err, false);
     }
@@ -23,6 +23,7 @@ const jwtStrategy = new JwtStrategy(jwtStrategyOptions, (payload, done) => {
 });
 
 passport.use(jwtStrategy);
+
 passport.initialize();
 
 const jwtAuth = passport.authenticate('jwt', { session: false });
