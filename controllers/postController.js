@@ -2,14 +2,23 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
 exports.getPosts = (req, res) => {
+  const limit = 20;
   Post.find({ published: true })
-    .limit(20)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .exec((err, posts) => {
       if (err) {
-        return res.send(err.message);
+        return res.json({
+          success: false,
+          message: 'Database Error',
+          error: err.message,
+        });
       }
-      res.json({ posts });
+      res.json({
+        success: true,
+        message: `Retrieved ${limit} most recent posts.`,
+        posts,
+      });
     });
 };
 
