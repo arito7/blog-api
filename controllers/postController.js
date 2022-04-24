@@ -13,6 +13,27 @@ exports.getPosts = (req, res) => {
     });
 };
 
+exports.getUserPosts = (req, res) => {
+  Post.find({ creator: req.user.id })
+    .sort({ createdAt: -1 })
+    .limit(50)
+    .exec((err, posts) => {
+      if (err) {
+        res.status(500);
+        return res.json({
+          success: false,
+          message: 'Database Error',
+          error: err.message,
+        });
+      }
+      if (posts) {
+        return res.json({ success: true, posts });
+      } else {
+        return res.json({ success: true, message: 'User has no posts.' });
+      }
+    });
+};
+
 exports.getComments = (req, res, next) => {
   Comment.find({ post: req.params.id })
     .sort({ createdAt: -1 })
