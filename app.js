@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./config/mongodb');
 const authRoute = require('./routes/auth');
 const postsRoute = require('./routes/posts');
+const usersRoute = require('./routes/users');
 const cors = require('cors');
 const morgan = require('morgan');
 require('./config/passport');
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/', authRoute);
 app.use('/posts', postsRoute);
+app.use('/users', usersRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Not Found');

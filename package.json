@@ -4,10 +4,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node app",
-    "devstart": "nodemon app"
+    "dev": "nodemon app"
   },
   "engines": {
-    "node": "16.13.2"
+    "node": "16.14.0"
   },
   "repository": "git@github.com:arito7/blog-api.git",
   "author": "arito7 <64824933+arito7@users.noreply.github.com>",

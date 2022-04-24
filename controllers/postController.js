@@ -1,5 +1,7 @@
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
+const User = require('../models/User');
+const async = require('async');
 
 const errorMessage = {
   dbError: 'Database Error.',
@@ -52,30 +54,56 @@ exports.getUserPosts = (req, res) => {
 };
 
 exports.getUserPublicPosts = (req, res) => {
-  Post.find({ creator: req.params.id, published: true })
-    .sort({ createdAt: -1 })
-    .limit(50)
-    .exec((err, posts) => {
-      if (err) {
-        return res.json({
-          success: false,
-          message: errorMessage.dbError,
-          error: err.message,
+  console.log('getting public posts');
+  async.parallel(
+    {
+      posts: (cb) => {
+        Post.find({ creator: req.params.id, published: true })
+          .sort({ createdAt: -1 })
+          .limit(50)
+          .exec((err, posts) => {
+            if (err) {
+              return res.json({
+                success: false,
+                message: errorMessage.dbError,
+                error: err.message,
+              });
+            }
+            if (posts) {
+              cb(null, posts);
+            } else {
+              return res.json({
+                success: false,
+                message: errorMessage.userHasNoPosts,
+              });
+            }
+          });
+      },
+      user: (cb) => {
+        User.findById(req.params.id).exec((err, user) => {
+          if (err) {
+            return res.json({
+              success: false,
+              message: errorMessage.dbError,
+              error: err.message,
+            });
+          }
+          if (user) {
+            cb(null, user);
+          } else {
+            return res.json({
+              success: false,
+              message: 'User does not exist.',
+            });
+          }
         });
-      }
-      if (posts) {
-        return res.json({
-          success: true,
-          message: '',
-          posts,
-        });
-      } else {
-        return res.json({
-          success: false,
-          message: errorMessage.userHasNoPosts,
-        });
-      }
-    });
+      },
+    },
+    (err, data) => {
+      const user = data.user.public;
+      res.json({ success: true, posts: data.posts, user });
+    }
+  );
 };
 
 exports.getComments = (req, res, next) => {
@@ -144,7 +172,7 @@ exports.getOnePost = (req, res) => {
       // vital info
       let p = { ...post };
       p = p._doc;
-      p.creator = p.creator.username;
+      p.creator = p.creator.public;
       res.json({ success: true, post: p });
     });
 };
