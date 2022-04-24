@@ -65,7 +65,7 @@ exports.getOnePost = (req, res) => {
 
 exports.createPost = (req, res) => {
   const post = new Post({
-    creator: req.user.id,
+    creator: req.user._id,
     title: req.body.title,
     body: req.body.body,
     published: req.body.published || false,
