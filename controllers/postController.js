@@ -47,12 +47,12 @@ exports.getComments = (req, res, next) => {
   Comment.find({ post: req.params.id })
     .sort({ createdAt: -1 })
     .exec((err, comments) => {
-    if (err) {
-      res.status(500);
-      res.json({ success: false, message: 'Database Error' });
-    }
-    res.json({ success: true, postId: req.params.id, comments });
-  });
+      if (err) {
+        res.status(500);
+        res.json({ success: false, message: 'Database Error' });
+      }
+      res.json({ success: true, postId: req.params.id, comments });
+    });
 };
 
 exports.updatePost = (req, res, next) => {
@@ -65,22 +65,22 @@ exports.updatePost = (req, res, next) => {
       });
     }
     if (req.user.id == post.creator) {
-    post.title = req.body.title || post.title;
-    post.body = req.body.body || post.body;
-    post.published = req.body.published || post.published;
-    post.save((err, post) => {
-      if (err) {
+      post.title = req.body.title || post.title;
+      post.body = req.body.body || post.body;
+      post.published = req.body.published || post.published;
+      post.save((err, post) => {
+        if (err) {
           return res.json({
             success: false,
             message: 'Database Error',
             error: err.message,
           });
-      }
+        }
         return res.json({
           success: true,
           message: 'Post successfully updated',
           post,
-    });
+        });
       });
     } else {
       return res.json({
@@ -132,11 +132,44 @@ exports.createPost = (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-  Post.findByIdAndDelete(req.params.id, (err, post) => {
+  Post.findById(req.params.id).exec((err, post) => {
     if (err) {
-      return res.send(err);
+      return res.json({
+        success: false,
+        message: 'Database Error.',
+        error: err.message,
+      });
     }
-    res.send(post);
+    if (post) {
+      console.log('userid', req.user.id, 'postcreator:', post.creator);
+      if (req.user.id == post.creator) {
+        Post.findByIdAndDelete(post.id).exec((err, post) => {
+          if (err) {
+            return res.json({
+              success: false,
+              message: 'Database Error',
+              error: err.message,
+            });
+          }
+          res.json({
+            success: true,
+            message: 'Post successfully deleted.',
+            post,
+          });
+        });
+      } else {
+        res.json({
+          success: false,
+          message:
+            'Failed to delete post. You are not authorized to modify this post.',
+        });
+      }
+    } else {
+      return res.json({
+        success: false,
+        message: 'Could not find a post with corresponding id',
+      });
+    }
   });
 };
 
