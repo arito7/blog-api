@@ -26,16 +26,27 @@ exports.getComments = (req, res, next) => {
 exports.updatePost = (req, res, next) => {
   Post.findById(req.params.id).exec((err, post) => {
     if (err) {
-      res.json({ message: err.message });
+      return res.json({
+        success: false,
+        message: 'Database Error',
+        error: err.message,
+      });
     }
     post.title = req.body.title || post.title;
     post.body = req.body.body || post.body;
     post.published = req.body.published || post.published;
     post.save((err, post) => {
       if (err) {
-        return res.json({ message: err.message });
+          return res.json({
+            success: false,
+            message: 'Database Error',
+            error: err.message,
+          });
       }
-      res.json({ body: req.body, post });
+        return res.json({
+          success: true,
+          message: 'Post successfully updated',
+          post,
     });
   });
 };
