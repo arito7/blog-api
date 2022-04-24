@@ -97,8 +97,12 @@ exports.postComment = (req, res) => {
   });
   comment.save((err, comment) => {
     if (err) {
-      return res.send(err);
+      return res.json({
+        success: false,
+        message: 'Database Error',
+        error: err.message,
+      });
     }
-    res.send(comment);
+    res.json({ success: true, message: 'Comment successfully saved', comment });
   });
 };
