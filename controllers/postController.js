@@ -1,6 +1,11 @@
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
+const errorMessage = {
+  dbError: 'Database Error.',
+  userHasNoPosts: 'User has no posts.',
+};
+
 exports.getPosts = (req, res) => {
   const limit = 20;
   Post.find({ published: true })
@@ -10,7 +15,7 @@ exports.getPosts = (req, res) => {
       if (err) {
         return res.json({
           success: false,
-          message: 'Database Error',
+          message: errorMessage.dbError,
           error: err.message,
         });
       }
@@ -31,14 +36,44 @@ exports.getUserPosts = (req, res) => {
         res.status(500);
         return res.json({
           success: false,
-          message: 'Database Error',
+          message: errorMessage.dbError,
           error: err.message,
         });
       }
       if (posts) {
         return res.json({ success: true, posts });
       } else {
-        return res.json({ success: true, message: 'User has no posts.' });
+        return res.json({
+          success: true,
+          message: errorMessage.userHasNoPosts,
+        });
+      }
+    });
+};
+
+exports.getUserPublicPosts = (req, res) => {
+  Post.find({ creator: req.params.id, published: true })
+    .sort({ createdAt: -1 })
+    .limit(50)
+    .exec((err, posts) => {
+      if (err) {
+        return res.json({
+          success: false,
+          message: errorMessage.dbError,
+          error: err.message,
+        });
+      }
+      if (posts) {
+        return res.json({
+          success: true,
+          message: '',
+          posts,
+        });
+      } else {
+        return res.json({
+          success: false,
+          message: errorMessage.userHasNoPosts,
+        });
       }
     });
 };
@@ -49,7 +84,7 @@ exports.getComments = (req, res, next) => {
     .exec((err, comments) => {
       if (err) {
         res.status(500);
-        res.json({ success: false, message: 'Database Error' });
+        res.json({ success: false, message: errorMessage.dbError });
       }
       res.json({ success: true, postId: req.params.id, comments });
     });
@@ -60,7 +95,7 @@ exports.updatePost = (req, res, next) => {
     if (err) {
       return res.json({
         success: false,
-        message: 'Database Error',
+        message: errorMessage.dbError,
         error: err.message,
       });
     }
@@ -72,7 +107,7 @@ exports.updatePost = (req, res, next) => {
         if (err) {
           return res.json({
             success: false,
-            message: 'Database Error',
+            message: errorMessage.dbError,
             error: err.message,
           });
         }
@@ -136,7 +171,7 @@ exports.deletePost = (req, res) => {
     if (err) {
       return res.json({
         success: false,
-        message: 'Database Error.',
+        message: errorMessage.dbError,
         error: err.message,
       });
     }
@@ -147,7 +182,7 @@ exports.deletePost = (req, res) => {
           if (err) {
             return res.json({
               success: false,
-              message: 'Database Error',
+              message: errorMessage.dbError,
               error: err.message,
             });
           }
@@ -183,7 +218,7 @@ exports.postComment = (req, res) => {
     if (err) {
       return res.json({
         success: false,
-        message: 'Database Error',
+        message: errorMessage.dbError,
         error: err.message,
       });
     }
