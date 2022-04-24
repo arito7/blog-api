@@ -39,22 +39,26 @@ exports.register = (req, res) => {
 exports.login = (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
     if (err) {
-      res.json({ message: err.message });
+      res.json({ success: false, message: err.message });
     }
     if (!user) {
-      res.json({ message: 'username does not exist' });
+      res.json({ success: false, message: 'Username does not exist' });
     } else {
       bcrypt.compare(req.body.password, user.hash).then((match) => {
         if (match) {
           const payload = {
-            sub: user.id,
+            sub: user._id,
             iat: Date.now(),
           };
           const token = jwt.sign(payload, process.env.JWT_SECRET);
-          res.json({ success: true, token, expiresIn: '14d' });
+          let u = { ...user };
+          u = u._doc;
+          delete u.hash;
+          delete u.__v;
+          res.json({ success: true, token, expiresIn: '14d', user: u });
         } else {
           res.status(403);
-          res.json({ message: 'Incorrect login credentials' });
+          res.json({ success: false, message: 'Incorrect login credentials' });
         }
       });
     }
