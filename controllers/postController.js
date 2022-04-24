@@ -14,7 +14,9 @@ exports.getPosts = (req, res) => {
 };
 
 exports.getComments = (req, res, next) => {
-  Comment.find({ post: req.params.id }).exec((err, comments) => {
+  Comment.find({ post: req.params.id })
+    .sort({ createdAt: -1 })
+    .exec((err, comments) => {
     if (err) {
       res.status(500);
       res.json({ success: false, message: 'Database Error' });
