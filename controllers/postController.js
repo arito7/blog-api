@@ -32,6 +32,7 @@ exports.updatePost = (req, res, next) => {
         error: err.message,
       });
     }
+    if (req.user.id == post.creator) {
     post.title = req.body.title || post.title;
     post.body = req.body.body || post.body;
     post.published = req.body.published || post.published;
@@ -48,6 +49,13 @@ exports.updatePost = (req, res, next) => {
           message: 'Post successfully updated',
           post,
     });
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: 'You are not authorized to modify this post.',
+      });
+    }
   });
 };
 
