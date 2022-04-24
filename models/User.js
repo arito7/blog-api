@@ -8,4 +8,7 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+UserSchema.virtual('public').get(function () {
+  return { id: this.id, username: this.username };
+});
 module.exports = mongoose.model('User', UserSchema);
