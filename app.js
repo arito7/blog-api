@@ -10,7 +10,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 require('dotenv').config();
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 db.on('error', () => {
   console.log('mongodb connection error');
